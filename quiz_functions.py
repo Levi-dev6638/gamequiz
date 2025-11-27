@@ -21,17 +21,13 @@ def load_data():
 def select_random(lista):
     return random.choice(lista)
 
-#function for dont repeat the questions
-def no_repetition(question):
-    data = load_data()
-    new_list = []
-    
-    for item in data["itens"]:
-        if item["id"] != question["id"]:
-            new_list.append(item)
 
-    return new_list
+#function that randomly selects questions
+def draw_questions(qnt):
+    questions = load_data()
+    random_question = random.sample(questions,qnt)
+    return random_question
 
-def sortear_questions(qnt):
-    data = load_data()
-    
+def check_answers(resposta_escolhida):
+    return
+     
