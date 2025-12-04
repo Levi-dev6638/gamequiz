@@ -43,12 +43,11 @@ def verificar_resposta(resposta_do_usuario,pergunta):
     return False
 
 def next_move():
-    global current_rounds,current_player
-    print(">>> next_move ANTES:", current_rounds, current_player)
-    current_player = (current_player + 1) % 2
-    if current_player == 0:
-        current_rounds += 1
-    print(">>> next_move DEPOIS:", current_rounds, current_player)
+     global current_rounds,current_player
+     current_player = (current_player + 1) % 2  # alterna jogadores
+     current_rounds += 1
+
+
 
 def reset_game():
     global score, current_rounds, current_player

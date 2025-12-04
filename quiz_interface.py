@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
-import os
-from quiz_functions import *
+import quiz_functions as qf
 
 root = tk.Tk()
 root.title("Gerenciador de Músicas")
@@ -15,22 +14,18 @@ resposta2 = None
 resposta3 = None
 lbl_confirmation = None
 fm_quiz = None
-
+dark_theme = False
 def show_questions():
-    global current_rounds,current_player
     
-    pergunta = perguntas[current_rounds]
+    
+    qf.pergunta = qf.perguntas[qf.current_rounds]
 
-    print(">>> Entrando em show_questions()")
-    print("current_rounds =", current_rounds)
-    print("perguntas carregadas:", len(perguntas))
+    lbl_pergunta.config(text=qf.pergunta["pergunta"])
+    resposta1.config(text=qf.pergunta["opcoes"][0], value=qf.pergunta["opcoes"][0])
+    resposta2.config(text=qf.pergunta["opcoes"][1], value=qf.pergunta["opcoes"][1])
+    resposta3.config(text=qf.pergunta["opcoes"][2], value=qf.pergunta["opcoes"][2])
 
-    lbl_pergunta.config(text=pergunta["pergunta"])
-    resposta1.config(text=pergunta["opcoes"][0], value=pergunta["opcoes"][0])
-    resposta2.config(text=pergunta["opcoes"][1], value=pergunta["opcoes"][1])
-    resposta3.config(text=pergunta["opcoes"][2], value=pergunta["opcoes"][2])
-
-    lbl_confirmation.config(text=f"Vez de {players[current_player]}", fg="black")
+    lbl_confirmation.config(text=f"Vez de {qf.players[qf.current_player]}", fg="black")
     var_resposta.set("")  
 
 
@@ -40,8 +35,8 @@ def responder():
         messagebox.showwarning("Atenção", "Selecione uma resposta!")
         return
 
-    pergunta = perguntas[current_rounds]
-    correta = verificar_resposta(resposta, pergunta)
+    pergunta = qf.perguntas[qf.current_rounds]
+    correta = qf.verificar_resposta(resposta, pergunta)
 
     if correta:
         lbl_confirmation.config(text="✔ Resposta correta!", fg="green")
@@ -52,17 +47,16 @@ def responder():
     print("DEBUG resposta selecionada:", var_resposta.get())
 
 def proxima_pergunta():
-    global current_rounds
-    next_move()
-    if current_rounds < len(perguntas):
+    qf.next_move()
+    if qf.current_rounds < len(qf.perguntas):
         show_questions()
     else:
         messagebox.showinfo(
             "Fim do Quiz",
             f"Placar final:\n"
-            f"Jogador 1: {score[0]}\n"
-            f"Jogador 2: {score[1]}\n"
-            f"{get_winner()}"
+            f"Jogador 1: {qf.score[0]}\n"
+            f"Jogador 2: {qf.score[1]}\n"
+            f"{qf.get_winner()}"
         )
         root.destroy()
     print(">>> Entrou em proxima_pergunta()")
@@ -106,19 +100,19 @@ def starting_the_game():
         return
     qnt = int(qnt)
 
-    reset_game()
+    qf.reset_game()
 
-    global perguntas
-    perguntas = draw_questions(qnt)
-    print("Quantidade de perguntas carregadas:", len(perguntas))
 
-    if len(perguntas) == 0:
+    qf.perguntas = qf.draw_questions(qnt)
+    print("Quantidade de perguntas carregadas:", len(qf.perguntas))
+
+    if len(qf.perguntas) == 0:
         messagebox.showerror("Erro", "Nenhuma pergunta encontrada!")
         return
 
     global players
-    players[0] = entry_player1.get() or "Jogador 1"
-    players[1] = entry_player2.get() or "Jogador 2"
+    qf.players[0] = entry_player1.get() or "Jogador 1"
+    qf.players[1] = entry_player2.get() or "Jogador 2"
 
 
     frame.destroy()
@@ -127,7 +121,7 @@ def starting_the_game():
 
 
 
-dark_theme = False
+
 def toggle_theme():
     global dark_theme
     dark_theme = not dark_theme
