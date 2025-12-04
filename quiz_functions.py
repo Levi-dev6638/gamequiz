@@ -2,7 +2,7 @@ import random
 import json
 import os 
 from tkinter import messagebox
-
+print(">>> quiz_functions IMPORTADO NOVAMENTE")
 
 score = [0,0]
 players = ["jogador1","jogador2"] 
@@ -11,7 +11,8 @@ current_rounds = 0
 perguntas = []
 
 # it created the questions archive in case it didn't already exist
-QUESTION_FILE = "questions/quiz_data.json" 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+QUESTION_FILE = os.path.join(BASE_DIR, "questions", "quiz_data.json") 
 os.makedirs("questions", exist_ok=True)
 
 
@@ -25,73 +26,44 @@ def load_data():
                 return []
     return []
 
-def finalizar_quiz():
+def get_winner():
     if score[0] > score[1]:
-        vencedor = "player 1 wins"
+        return  "player 1 wins"
     elif score[1]> score[0]:
-        vencedor = "player 2 wins"
+        return  "player 2 wins"
     else:
-        vencedor = "empate"
-
-    messagebox.showinfo(
-        "fim do quiz",
-        f"placar final:\n"
-        f"jogador 1: {score[0]}\n"
-        f"player 2 : {score [1]}\n"
-        f"{vencedor}"
-    )
-
-
-def show_questions ():
-    question = perguntas[current_rounds]
-
-    lbl_question.config(text=question["pergunta"])
-    lbl_player.config(text = f"vez de {players[current_player]}")
-    lbl_pontos.config(text=f"J1: {score[0]} / J2: {score[1]} / Round: {current_rounds+1}")
-
-    resposta1.config(text=pergunta["opcoes"][0])
-    resposta2.config(text=pergunta["opçoes"][1])
-    resposta3.config(text=pergunta["opçoes"][3])
-
-
-def responder(resposta):
-    pergunta = perguntas[current_rounds]
-
-    verificar_resposta(resposta,pergunta)
-    next_move()
-#function to select randomly
-def select_random():
-    global current_player
-    current_player = random.randint(0,1)
-
+        return  "empate"
 
 def verificar_resposta(resposta_do_usuario,pergunta):
     global score,current_player
 
-    if resposta_do_usuario == pergunta["resposta"]:
-        score +=1
-        return
+    if resposta_do_usuario.strip() == pergunta["resposta"].strip():
+        score[current_player] +=1
+        return True
+    return False
 
 def next_move():
-    global current_rounds
-
-    select_random()
-
+    global current_rounds,current_player
+    print(">>> next_move ANTES:", current_rounds, current_player)
+    current_player = (current_player + 1) % 2
     if current_player == 0:
-        current_rounds +=1
+        current_rounds += 1
+    print(">>> next_move DEPOIS:", current_rounds, current_player)
 
-    if current_rounds < len(perguntas):
-        show_questions()
-    else:
-        finalizar_quiz()
+def reset_game():
+    global score, current_rounds, current_player
+    score = [0, 0]
+    current_rounds = 0
+    current_player = 0
 
+    print("RESETANDO O JOGO!")
 
 #function that randomly selects questions
 def draw_questions(qnt):
     questions = load_data()
-    random_question = random.sample(questions,qnt)
-    return random_question
+    if qnt > len(questions):
+        qnt = len(questions)
+    return random.sample(questions, qnt)
 
-def check_answers(resposta_escolhida):
-    return
+
      

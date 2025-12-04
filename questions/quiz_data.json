@@ -1,0 +1,52 @@
+[
+    {
+        "pergunta": "Quem é o vocalista da banda Avenged Sevenfold?",
+        "opcoes": ["M. Shadows", "James Hetfield", "Corey Taylor"],
+        "resposta": "M. Shadows"
+    },
+    {
+        "pergunta": "Qual dessas bandas é considerada pioneira do heavy metal?",
+        "opcoes": ["Black Sabbath", "Pink Floyd", "Foo Fighters"],
+        "resposta": "Black Sabbath"
+    },
+    {
+        "pergunta": "Quem é conhecido como o 'Rei do Pop'?",
+        "opcoes": ["Bruno Mars", "Michael Jackson", "Prince"],
+        "resposta": "Michael Jackson"
+    },
+    {
+        "pergunta": "Qual banda lançou o álbum 'Hybrid Theory'?",
+        "opcoes": ["Linkin Park", "Slipknot", "Green Day"],
+        "resposta": "Linkin Park"
+    },
+    {
+        "pergunta": "Qual instrumento Jimi Hendrix tocava?",
+        "opcoes": ["Guitarra", "Bateria", "Baixo"],
+        "resposta": "Guitarra"
+    },
+    {
+        "pergunta": "Qual dessas bandas NÃO é britânica?",
+        "opcoes": ["Queen", "Arctic Monkeys", "Red Hot Chili Peppers"],
+        "resposta": "Red Hot Chili Peppers"
+    },
+    {
+        "pergunta": "Qual é o nome verdadeiro de Lady Gaga?",
+        "opcoes": ["Stefani Germanotta", "Ariana Grande", "Katy Hudson"],
+        "resposta": "Stefani Germanotta"
+    },
+    {
+        "pergunta": "Qual banda ficou famosa com a música 'Chop Suey!'?",
+        "opcoes": ["System Of A Down", "Metallica", "Disturbed"],
+        "resposta": "System Of A Down"
+    },
+    {
+        "pergunta": "Quem canta a música 'Blinding Lights'?",
+        "opcoes": ["The Weeknd", "Drake", "Post Malone"],
+        "resposta": "The Weeknd"
+    },
+    {
+        "pergunta": "Qual banda lançou o álbum 'Nevermind'?",
+        "opcoes": ["Nirvana", "Pearl Jam", "Radiohead"],
+        "resposta": "Nirvana"
+    }
+]

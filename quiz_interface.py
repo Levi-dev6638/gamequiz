@@ -1,28 +1,131 @@
 import tkinter as tk
 from tkinter import messagebox
 import os
+from quiz_functions import *
 
 root = tk.Tk()
 root.title("Gerenciador de Músicas")
 root.geometry("900x850")
 root.config(bg="#e8e8e8")
 
+var_resposta = tk.StringVar()
+lbl_pergunta = None
+resposta1 = None
+resposta2 = None
+resposta3 = None
+lbl_confirmation = None
+fm_quiz = None
+
+def show_questions():
+    global current_rounds,current_player
+    
+    pergunta = perguntas[current_rounds]
+
+    print(">>> Entrando em show_questions()")
+    print("current_rounds =", current_rounds)
+    print("perguntas carregadas:", len(perguntas))
+
+    lbl_pergunta.config(text=pergunta["pergunta"])
+    resposta1.config(text=pergunta["opcoes"][0], value=pergunta["opcoes"][0])
+    resposta2.config(text=pergunta["opcoes"][1], value=pergunta["opcoes"][1])
+    resposta3.config(text=pergunta["opcoes"][2], value=pergunta["opcoes"][2])
+
+    lbl_confirmation.config(text=f"Vez de {players[current_player]}", fg="black")
+    var_resposta.set("")  
+
+
+def responder():
+    resposta = var_resposta.get()
+    if not resposta:
+        messagebox.showwarning("Atenção", "Selecione uma resposta!")
+        return
+
+    pergunta = perguntas[current_rounds]
+    correta = verificar_resposta(resposta, pergunta)
+
+    if correta:
+        lbl_confirmation.config(text="✔ Resposta correta!", fg="green")
+    else:
+        lbl_confirmation.config(text="✘ Resposta errada!", fg="red")
+
+    root.after(1000, proxima_pergunta)
+    print("DEBUG resposta selecionada:", var_resposta.get())
+
+def proxima_pergunta():
+    global current_rounds
+    next_move()
+    if current_rounds < len(perguntas):
+        show_questions()
+    else:
+        messagebox.showinfo(
+            "Fim do Quiz",
+            f"Placar final:\n"
+            f"Jogador 1: {score[0]}\n"
+            f"Jogador 2: {score[1]}\n"
+            f"{get_winner()}"
+        )
+        root.destroy()
+    print(">>> Entrou em proxima_pergunta()")
+
+
+
+def build_quiz_screen():
+
+    global lbl_pergunta, resposta1, resposta2, resposta3, lbl_confirmation, fm_quiz
+
+    fm_quiz = tk.Frame(root, bg="#ffffff", bd=2, relief="groove")
+    fm_quiz.grid(row=0, column=0, sticky="nsew", padx=10, pady=10)
+
+    lbl_pergunta = tk.Label(fm_quiz, text="", font=("Arial", 18))
+    lbl_pergunta.grid(row=0, column=0, columnspan=2, pady=20)
+
+    var_resposta.set("")
+
+    resposta1 = tk.Radiobutton(fm_quiz, text="", variable=var_resposta, value="", font=("Arial", 14))
+    resposta1.grid(row=1, column=0, sticky="w", pady=10)
+
+    resposta2 = tk.Radiobutton(fm_quiz, text="", variable=var_resposta, value="", font=("Arial", 14))
+    resposta2.grid(row=2, column=0, sticky="w", pady=10)
+
+    resposta3 = tk.Radiobutton(fm_quiz, text="", variable=var_resposta, value="", font=("Arial", 14))
+    resposta3.grid(row=3, column=0, sticky="w", pady=10)
+
+    bt_response = tk.Button(fm_quiz, text="Responder", bg="#0d097f", fg="#FFFFFF",
+                            font=("Arial", 14, "bold"), height=2, width=30,
+                            command=responder)
+    bt_response.grid(row=4, column=0, pady=20)
+
+    lbl_confirmation = tk.Label(fm_quiz, text="", font=("Arial", 20))
+    lbl_confirmation.grid(row=5, column=0, pady=20)
+
+
 def starting_the_game():
-    fm_start = tk.Frame(root, bg="#ffffff", bd=2, relief="groove",width=5,height=50)
-    fm_start.grid(row=0, column=0, columnspan=2, sticky="nsew", padx=10, pady=10)
+    qnt = entry_rounds.get()
+    if not qnt.isdigit():
+        messagebox.showerror("Erro", "Digite um número válido!")
+        return
+    qnt = int(qnt)
 
-    lbl_pergunta = tk.Label(fm_start,text="",width=40,font=("Arial",14))
-    lbl_pergunta.grid(row=0,column=2,padx=5,pady=30)
+    reset_game()
 
-    resposta1 = tk.Radiobutton(fm_start,text="r")
-    resposta1.grid(row=1,column=0,padx=5,pady=30)
+    global perguntas
+    perguntas = draw_questions(qnt)
+    print("Quantidade de perguntas carregadas:", len(perguntas))
 
-    resposta2 = tk.Radiobutton(fm_start,text="r")
-    resposta2.grid(row=2,column=0,padx=5,pady=30)
+    if len(perguntas) == 0:
+        messagebox.showerror("Erro", "Nenhuma pergunta encontrada!")
+        return
 
-    resposta3 = tk.Radiobutton(fm_start,text="r")
-    resposta3.grid(row=3,column=0,padx=5,pady=30)
-   
+    global players
+    players[0] = entry_player1.get() or "Jogador 1"
+    players[1] = entry_player2.get() or "Jogador 2"
+
+
+    frame.destroy()
+    build_quiz_screen()
+    show_questions()
+
+
 
 dark_theme = False
 def toggle_theme():
@@ -69,8 +172,8 @@ entry_player2.grid(row=3,column=0,padx=5,pady=30)
 lbl_rounds = tk.Label(frame,text="number of rounds:",width=40,font=("Arial",14))
 lbl_rounds.grid(row=4,column=0,padx=5,pady=10)
 
-entry_player2 = tk.Entry(frame,justify="center",font=("arial",14))
-entry_player2.grid(row=5,column=0,padx=5,pady=30)
+entry_rounds = tk.Entry(frame,justify="center",font=("arial",14))
+entry_rounds.grid(row=5,column=0,padx=5,pady=30)
 
 bt_alttema = tk.Button(frame, text="Alterar Tema", bg="#0d097f", fg="#FFFFFF",
                  font=("Arial", 14, "bold"),height=2,width=30,command=toggle_theme)
