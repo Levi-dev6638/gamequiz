@@ -1,7 +1,9 @@
 import random
 import json
 import os 
-from tkinter import messagebox
+import pygame
+
+
 print(">>> quiz_functions IMPORTADO NOVAMENTE")
 
 score = [0,0]
@@ -38,9 +40,13 @@ def verificar_resposta(resposta_do_usuario,pergunta):
     global score,current_player
 
     if resposta_do_usuario.strip() == pergunta["resposta"].strip():
+        hit_sound()
         score[current_player] +=1
         return True
-    return False
+    else:
+        error_sound()
+        return False
+
 
 def next_move():
      global current_rounds,current_player
@@ -65,4 +71,24 @@ def draw_questions(qnt):
     return random.sample(questions, qnt)
 
 
-     
+def hit_sound():
+    music_path = "musica.mp3"
+
+    if not pygame.get_init():
+        pygame.init()
+    if not pygame.mixer.get_init():
+        pygame.mixer.init()
+
+    pygame.mixer.music.load(music_path)
+    pygame.mixer.music.set_volume(0.7)
+
+def error_sound():
+    music_path = "musica.mp3"
+
+    if not pygame.get_init():
+        pygame.init()
+    if not pygame.mixer.get_init():
+        pygame.mixer.init()
+
+    pygame.mixer.music.load(music_path)
+    pygame.mixer.music.set_volume(0.7)
