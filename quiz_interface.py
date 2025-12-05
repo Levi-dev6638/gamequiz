@@ -43,7 +43,7 @@ def responder():
     else:
         lbl_confirmation.config(text="✘ Resposta errada!", fg="red")
 
-    root.after(1000, proxima_pergunta)
+    root.after(3000, proxima_pergunta)
     print("DEBUG resposta selecionada:", var_resposta.get())
 
 def proxima_pergunta():

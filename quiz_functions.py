@@ -2,8 +2,8 @@ import random
 import json
 import os 
 import pygame
-
-
+pygame.init()
+pygame.mixer.init()
 print(">>> quiz_functions IMPORTADO NOVAMENTE")
 
 score = [0,0]
@@ -38,14 +38,13 @@ def get_winner():
 
 def verificar_resposta(resposta_do_usuario,pergunta):
     global score,current_player
-
+       
     if resposta_do_usuario.strip() == pergunta["resposta"].strip():
-        hit_sound()
+        
         score[current_player] +=1
-        return True
+        return hit_sound(),True
     else:
-        error_sound()
-        return False
+        return error_sound(),False
 
 
 def next_move():
@@ -72,7 +71,7 @@ def draw_questions(qnt):
 
 
 def hit_sound():
-    music_path = "musica.mp3"
+    music_path = "somquiz.mp3"
 
     if not pygame.get_init():
         pygame.init()
@@ -83,7 +82,7 @@ def hit_sound():
     pygame.mixer.music.set_volume(0.7)
 
 def error_sound():
-    music_path = "musica.mp3"
+    music_path = "somquiz.mp3"
 
     if not pygame.get_init():
         pygame.init()
