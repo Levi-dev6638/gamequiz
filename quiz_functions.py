@@ -2,9 +2,9 @@ import random
 import json
 import os 
 import pygame
+
 pygame.init()
 pygame.mixer.init()
-print(">>> quiz_functions IMPORTADO NOVAMENTE")
 
 score = [0,0]
 players = ["jogador1","jogador2"] 
@@ -28,39 +28,43 @@ def load_data():
                 return []
     return []
 
+
+#this function shows the winner
 def get_winner():
     if score[0] > score[1]:
-        return  "player 1 wins"
+        return f" {players[0]} wins"
     elif score[1]> score[0]:
-        return  "player 2 wins"
+        return f"{players[1]} wins"
     else:
-        return  "empate"
+        return  "draw"
 
-def verificar_resposta(resposta_do_usuario,pergunta):
+#check if the answer is correct and play the sound
+def check_answer(user_response,question):
     global score,current_player
        
-    if resposta_do_usuario.strip() == pergunta["resposta"].strip():
+    if user_response.strip() == question["resposta"].strip():
         
         score[current_player] +=1
-        return hit_sound(),True
+        hit_sound()
+        return True
+    
     else:
-        return error_sound(),False
+        error_sound()
+        return False
 
-
+#alternates the players and the round
 def next_move():
      global current_rounds,current_player
-     current_player = (current_player + 1) % 2  # alterna jogadores
+     current_player = (current_player + 1) % 2  
      current_rounds += 1
 
 
-
+#resets the value of the variables to zero
 def reset_game():
     global score, current_rounds, current_player
     score = [0, 0]
     current_rounds = 0
     current_player = 0
-
-    print("RESETANDO O JOGO!")
 
 #function that randomly selects questions
 def draw_questions(qnt):
@@ -71,18 +75,22 @@ def draw_questions(qnt):
 
 
 def hit_sound():
-    music_path = "somquiz.mp3"
+    music= "somcerto.mp3"
 
     if not pygame.get_init():
         pygame.init()
     if not pygame.mixer.get_init():
         pygame.mixer.init()
 
-    pygame.mixer.music.load(music_path)
+    pygame.mixer.music.load(music)
     pygame.mixer.music.set_volume(0.7)
+    pygame.mixer.music.play()
 
 def error_sound():
-    music_path = "somquiz.mp3"
+    print("pygame:", pygame.get_init())
+    print("mixer:", pygame.mixer.get_init())
+
+    music_path = "somerro.mp3"
 
     if not pygame.get_init():
         pygame.init()
@@ -91,3 +99,4 @@ def error_sound():
 
     pygame.mixer.music.load(music_path)
     pygame.mixer.music.set_volume(0.7)
+    pygame.mixer.music.play()
