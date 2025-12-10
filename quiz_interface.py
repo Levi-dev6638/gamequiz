@@ -93,7 +93,7 @@ def build_quiz_screen():
     response3.grid(row=3, column=0, sticky="w", pady=10)
 
     bt_response = tk.Button(
-        fm_quiz, text="Response", bg="#0F02C3", fg="#FFFFFF",
+        fm_quiz, text="Resposta", bg="#0F02C3", fg="#FFFFFF",
         font=("Arial", 14, "bold"), height=3, width=30,
         command=response
     )
@@ -113,10 +113,10 @@ def build_quiz_screen():
         fm_quiz.configure(bg="#370000")
         bt_response.config(bg="#000000", fg="white")
         bt_exit.config(bg="#000000", fg="white")
-        
-        response1.config(bg="#370000")
-        response2.config(bg="#370000")
-        response3.config(bg="#370000")
+        lbl_question.config(bg="#370000",fg="white")
+        response1.config(bg="#370000",fg="white",selectcolor="#370000")
+        response2.config(bg="#370000",fg="white",selectcolor="#370000")
+        response3.config(bg="#370000",fg="white",selectcolor="#370000")
 
 def exit():
     root.destroy()
@@ -181,10 +181,10 @@ frame.grid(row=0, column=0, columnspan=2, sticky="nsew", padx=10, pady=10)
 
 frame.grid_columnconfigure(0, weight=1)
 
-lbl_name_game = tk.Label(frame,text="MUSICAL QUIZ",font=("lexend",30,"bold"),fg="black",bg="#FFFFFF")
+lbl_name_game = tk.Label(frame,text="QUIZ DE MUSICA",font=("lexend",30,"bold"),fg="black",bg="#FFFFFF")
 lbl_name_game.grid(row=0,column=0,padx=5,pady=30)
 
-lbl_nameplayers = tk.Label(frame,text="Inform the players' names:",width=25,font=("Arial",14),fg="black",bg="#FFFFFF")
+lbl_nameplayers = tk.Label(frame,text="Informe o nome dos jogadores:",width=25,font=("Arial",14),fg="black",bg="#FFFFFF")
 lbl_nameplayers.grid(row=1,column=0,padx=5,pady=30)
 
 entry_player1 = tk.Entry(frame,justify="center",font=("lexend",14),width=30)
@@ -193,7 +193,7 @@ entry_player1.grid(row=2,column=0,padx=5,pady=30,)
 entry_player2 = tk.Entry(frame,justify="center",font=("lexend",14),width=30)
 entry_player2.grid(row=3,column=0,padx=5,pady=30)
 
-lbl_rounds = tk.Label(frame,text="number of rounds:",width=20,font=("lexend",14),fg="black",bg="#FFFFFF")
+lbl_rounds = tk.Label(frame,text="numero de rodadas:",width=20,font=("lexend",14),fg="black",bg="#FFFFFF")
 lbl_rounds.grid(row=4,column=0,padx=5,pady=10)
 
 entry_rounds = tk.Entry(frame,justify="center",font=("lexend",14))
